@@ -67,4 +67,4 @@ after install check this urls:
 
 - update elasticsearch indexes
   
-  `./manage.py update_index --disable-change-limit`
+  `./manage.py update_index`
