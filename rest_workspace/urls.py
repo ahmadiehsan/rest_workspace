@@ -21,10 +21,10 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework_swagger.views import get_swagger_view
 
-from rest_workspace.routers import router
+from rest_workspace.routers import ROUTER, SEARCH_ROUTER
 
 # django swagger
-schema_view = get_swagger_view(title='Pastebin API')
+schema_view = get_swagger_view(title='Rest Workspace API')
 
 # router imports
 import_module('blog.routers')
@@ -34,7 +34,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
     path('api-docs/', schema_view),
-    path('api/v1/', include(router.urls)),
+    path('api/v1/search/', include(SEARCH_ROUTER.urls)),
+    path('api/v1/', include(ROUTER.urls)),
 ]
 
 # serve media files in debug mode

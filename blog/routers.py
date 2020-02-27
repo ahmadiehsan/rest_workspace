@@ -1,23 +1,25 @@
-from rest_workspace.routers import router
+from rest_workspace.routers import ROUTER, SEARCH_ROUTER
 
 from blog import viewsets
 
-router.register(r'users',
+ROUTER.register(r'users',
                 viewsets.UserViewSet,
                 basename='user')
 
-router.register(r'categories',
+ROUTER.register(r'categories',
                 viewsets.CategoryViewSet,
                 basename='category').register(r'posts',
                                               viewsets.BlogPostViewSet,
                                               basename='category-posts',
                                               parents_query_lookups=['categories'])
 
-router.register(r'posts',
+ROUTER.register(r'posts',
                 viewsets.BlogPostViewSet,
                 basename='post').register(r'comments',
                                           viewsets.CommentViewSet,
                                           basename='post-comments',
                                           parents_query_lookups=['blog_post'])
 
-router.register(r'comments', viewsets.CommentViewSet, basename='comment')
+SEARCH_ROUTER.register(r'posts', viewsets.BlogPostSearchViewSet, basename='post-search')
+
+ROUTER.register(r'comments', viewsets.CommentViewSet, basename='comment')

@@ -1,9 +1,14 @@
 from django.contrib.auth.models import User
 from django.db import transaction
+from drf_haystack.serializers import HaystackSerializer
 from rest_framework import serializers
 from rest_framework_extensions.serializers import PartialUpdateSerializerMixin
 
 from blog.models import Category, BlogPost, Comment, UserAdditionalData
+from blog.search_indexes import BlogPostIndex
+
+
+COMMON_IGNORED_FIELDS = ('text',)
 
 
 class UserAdditionalDataSerializer(serializers.ModelSerializer):
@@ -78,6 +83,13 @@ class BlogPostSerializer(PartialUpdateSerializerMixin, serializers.ModelSerializ
     class Meta:
         model = BlogPost
         fields = ('id', 'title', 'modify_time', 'image', 'categories', 'content', 'author')
+
+
+class BlogPostSearchSerializer(HaystackSerializer):
+    class Meta:
+        ignore_fields = COMMON_IGNORED_FIELDS
+        index_classes = (BlogPostIndex,)
+        fields = ('title', 'image')
 
 
 class CommentMinimalSerializer(serializers.ModelSerializer):
