@@ -85,7 +85,6 @@ class BlogPostSerializer(PartialUpdateSerializerMixin, serializers.ModelSerializ
 
 
 class BlogPostSearchSerializer(HaystackSerializer):
-    more_like_this = serializers.HyperlinkedIdentityField(view_name="post-search-more-like-this", read_only=True)
     categories = serializers.SerializerMethodField()
 
     def get_categories(self, obj):
