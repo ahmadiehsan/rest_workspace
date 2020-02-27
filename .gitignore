@@ -1,3 +1,28 @@
+# editor
 .idea
+.vscode
+
+# pycache files
+__pycache__
+**/__pycache__
+**/__pycache__/**
+*.pyc
+
+# migration files
+**/migrations/**
+!**/migrations
+!**/migrations/__init__.py
+
+# settings file
+**/settings/production.py
+**/settings/prod.py
+
+# other
+**/uwsgi_params
+venv
+env
 *.sqlite3
 media
+celerybeat*
+logs
+backup
