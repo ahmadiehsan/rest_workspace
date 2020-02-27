@@ -1,5 +1,5 @@
-from django.utils import timezone
 from haystack import indexes
+
 from blog.models import BlogPost
 
 
@@ -13,8 +13,7 @@ class BaseIndex(indexes.SearchIndex):
         return self.model
 
     def index_queryset(self, using=None):
-        # Unpublished posts don't need to be indexed
-        return self.get_model().objects.filter(create_time__lte=timezone.now())
+        return self.get_model().objects.all()
 
     # noinspection PyUnusedLocal
     def prepare_content_type(self, obj):
