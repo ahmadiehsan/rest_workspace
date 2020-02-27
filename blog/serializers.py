@@ -86,10 +86,16 @@ class BlogPostSerializer(PartialUpdateSerializerMixin, serializers.ModelSerializ
 
 
 class BlogPostSearchSerializer(HaystackSerializer):
+    categories = serializers.SerializerMethodField()
+
+    def get_categories(self, obj):
+        instances = Category.objects.filter(id__in=obj.category_ids)
+        return CategoryMinimalSerializer(instances, many=True).data
+
     class Meta:
         ignore_fields = COMMON_IGNORED_FIELDS
         index_classes = (BlogPostIndex,)
-        fields = ('title', 'image')
+        fields = ('title', 'image', 'categories')
 
 
 class CommentMinimalSerializer(serializers.ModelSerializer):

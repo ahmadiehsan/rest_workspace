@@ -26,7 +26,7 @@ class BlogPostIndex(BaseIndex, indexes.Indexable):
 
     title = indexes.CharField(model_attr='title')
     image = indexes.CharField()
-    # categories = indexes.MultiValueField(model_attr='categories')
+    category_ids = indexes.MultiValueField()
 
     @staticmethod
     def prepare_image(obj):
@@ -35,11 +35,9 @@ class BlogPostIndex(BaseIndex, indexes.Indexable):
             return 'media/{}'.format(image_url)
         return ''
 
-    # def prepare_image(self, obj):
-    #     image_url = obj.image
-    #     if image_url:
-    #         return 'media/{}'.format(image_url)
-    #     return ''
+    @staticmethod
+    def prepare_category_ids(obj):
+        return [category.id for category in obj.categories.all()]
 
     @staticmethod
     def prepare_autocomplete(obj):
