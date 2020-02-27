@@ -7,7 +7,6 @@ from rest_framework_extensions.serializers import PartialUpdateSerializerMixin
 from blog.models import Category, BlogPost, Comment, UserAdditionalData
 from blog.search_indexes import BlogPostIndex
 
-
 COMMON_IGNORED_FIELDS = ('text',)
 
 
@@ -96,7 +95,7 @@ class BlogPostSearchSerializer(HaystackSerializer):
     class Meta:
         ignore_fields = COMMON_IGNORED_FIELDS
         index_classes = (BlogPostIndex,)
-        fields = ('id', 'title', 'image', 'categories')
+        fields = ('title', 'content', 'image', 'category_ids', 'author_id')
 
 
 class CommentMinimalSerializer(serializers.ModelSerializer):
