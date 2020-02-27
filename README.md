@@ -49,6 +49,9 @@ curl http://localhost:9200
 ```
 git clone <this repo>
 cd rest-workspace
+virtualenv -p python3.5 venv
+source venv/bin/activate
+pip install -r req.txt
 ./manage.py makemigrations
 ./manage.py migrate
 ./manage.pu runserver
