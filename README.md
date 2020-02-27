@@ -44,7 +44,7 @@ sleep 10
 curl http://localhost:9200
 ```
 
-## installation
+## project installation
 
 ```
 git clone <this repo>
