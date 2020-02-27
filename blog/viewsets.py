@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django_filters import rest_framework as django_filters
 from drf_haystack.viewsets import HaystackViewSet
+from drf_haystack.mixins import MoreLikeThisMixin
 from rest_framework import filters as drf_filters
 from rest_framework import viewsets, mixins, permissions
 from rest_framework_extensions.mixins import DetailSerializerMixin, NestedViewSetMixin
@@ -64,7 +65,7 @@ class BlogPostViewSet(NestedViewSetMixin, DetailSerializerMixin, viewsets.ModelV
         return super().get_serializer_class()
 
 
-class BlogPostSearchViewSet(HaystackViewSet):
+class BlogPostSearchViewSet(HaystackViewSet, MoreLikeThisMixin):
     index_models = (BlogPost,)
     serializer_class = serializers.BlogPostSearchSerializer
     permission_classes = ()  # prevent from exception ('SearchQuerySet' object has no attribute 'model')

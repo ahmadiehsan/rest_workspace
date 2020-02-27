@@ -7,6 +7,7 @@ class BaseIndex(indexes.SearchIndex):
     model = None
 
     text = indexes.CharField(document=True, use_template=False)  # django-haystack need this in all index models
+    id = indexes.CharField(model_attr='id')
     content_type = indexes.CharField()
 
     def get_model(self):

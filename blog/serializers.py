@@ -86,6 +86,7 @@ class BlogPostSerializer(PartialUpdateSerializerMixin, serializers.ModelSerializ
 
 
 class BlogPostSearchSerializer(HaystackSerializer):
+    more_like_this = serializers.HyperlinkedIdentityField(view_name="post-search-more-like-this", read_only=True)
     categories = serializers.SerializerMethodField()
 
     def get_categories(self, obj):
@@ -95,7 +96,7 @@ class BlogPostSearchSerializer(HaystackSerializer):
     class Meta:
         ignore_fields = COMMON_IGNORED_FIELDS
         index_classes = (BlogPostIndex,)
-        fields = ('title', 'image', 'categories')
+        fields = ('id', 'title', 'image', 'categories')
 
 
 class CommentMinimalSerializer(serializers.ModelSerializer):

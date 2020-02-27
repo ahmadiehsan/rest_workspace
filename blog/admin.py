@@ -18,6 +18,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(BlogPost)
 class BlogPostAdmin(admin.ModelAdmin):
+    save_as = True
     list_display = (
         'id',
         'create_time',
