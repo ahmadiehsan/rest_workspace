@@ -1,4 +1,3 @@
-import datetime
 import json
 
 from drf_haystack.serializers import HaystackSerializer, HaystackFacetSerializer
@@ -9,6 +8,7 @@ from apps.blog.models import Category, Article
 from apps.blog.search_indexes import ArticleIndex
 from apps.common.serializers import CommentMinimalSerializer
 from apps.user.serializers import UserMinimalSerializer
+from helpers.serializers import CustomFacetFieldSerializer
 
 
 class CategoryMinimalSerializer(serializers.ModelSerializer):
@@ -78,6 +78,7 @@ class ArticleSearchSerializer(HaystackSerializer):
 
 class ArticleFacetSerializer(HaystackFacetSerializer):
     serialize_objects = True
+    facet_field_serializer_class = CustomFacetFieldSerializer
 
     class Meta:
         index_classes = (ArticleIndex,)
@@ -89,12 +90,6 @@ class ArticleFacetSerializer(HaystackFacetSerializer):
             'categories'
         )
         field_options = {
-            "title": {},
-            "author": {},
-            "modify_time": {
-                "start_date": datetime.datetime.now() - datetime.timedelta(days=3 * 365),
-                "end_date": datetime.datetime.now(),
-                "gap_by": "month",
-                "gap_amount": 3
-            }
+            'author_index': {},
+            'categories_index': {},
         }

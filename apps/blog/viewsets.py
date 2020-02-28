@@ -1,6 +1,6 @@
 from django_filters import rest_framework as django_filters
 from drf_haystack import filters as drf_haystack_filters
-from drf_haystack.mixins import MoreLikeThisMixin
+from drf_haystack.mixins import MoreLikeThisMixin, FacetMixin
 from drf_haystack.viewsets import HaystackViewSet
 from rest_framework import filters as drf_filters
 from rest_framework import viewsets, permissions
@@ -45,8 +45,15 @@ class ArticleViewSet(NestedViewSetMixin, DetailSerializerMixin, viewsets.ModelVi
         return super().get_serializer_class()
 
 
-class ArticleSearchViewSet(MoreLikeThisMixin, HaystackViewSet):
-    index_models = (Article,)
-    serializer_class = serializers.ArticleSearchSerializer
+class ArticleSearchViewSet(FacetMixin, MoreLikeThisMixin, HaystackViewSet):
     permission_classes = ()  # prevent from exception ('SearchQuerySet' object has no attribute 'model')
+    serializer_class = serializers.ArticleSearchSerializer
     filter_backends = (drf_haystack_filters.HaystackAutocompleteFilter,)
+
+    # index option
+    index_models = (Article,)
+
+    # facet options
+    facet_serializer_class = serializers.ArticleFacetSerializer
+    facet_filter_backends = (drf_haystack_filters.HaystackFacetFilter,)
+    facet_query_params_text = 'p'  # will effect on narrow_url
