@@ -1,6 +1,6 @@
 from django_filters import rest_framework as filters
 
-from blog.models import BlogPost
+from apps.blog.models import BlogPost
 
 
 class BlogPostFilter(filters.FilterSet):

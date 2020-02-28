@@ -6,8 +6,8 @@ from drf_haystack.serializers import HaystackSerializer
 from rest_framework import serializers
 from rest_framework_extensions.serializers import PartialUpdateSerializerMixin
 
-from blog.models import Category, BlogPost, Comment, UserAdditionalData
-from blog.search_indexes import BlogPostIndex
+from apps.blog.models import Category, BlogPost, Comment, UserAdditionalData
+from apps.blog.search_indexes import BlogPostIndex
 
 COMMON_IGNORED_FIELDS = ('text',)
 
@@ -88,15 +88,21 @@ class BlogPostSerializer(PartialUpdateSerializerMixin, serializers.ModelSerializ
 
 class BlogPostSearchSerializer(HaystackSerializer):
     author = serializers.SerializerMethodField()
+    categories = serializers.SerializerMethodField()
 
     @staticmethod
     def get_author(obj):
         return json.loads(obj.author)
 
+    @staticmethod
+    def get_categories(obj):
+        return json.loads(obj.categories)
+
     class Meta:
-        ignore_fields = COMMON_IGNORED_FIELDS
+        ignore_fields = COMMON_IGNORED_FIELDS + ('autocomplete',)
         index_classes = (BlogPostIndex,)
-        fields = ('title', 'content', 'image', 'author')
+        fields = ('title', 'content', 'image', 'author', 'categories', 'autocomplete')
+        field_aliases = {'q': 'autocomplete'}
 
 
 class CommentMinimalSerializer(serializers.ModelSerializer):

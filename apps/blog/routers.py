@@ -1,6 +1,6 @@
 from rest_workspace.routers import ROUTER, SEARCH_ROUTER
 
-from blog import viewsets
+from apps.blog import viewsets
 
 ROUTER.register(r'users',
                 viewsets.UserViewSet,

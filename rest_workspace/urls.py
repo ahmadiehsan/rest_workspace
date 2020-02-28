@@ -27,7 +27,7 @@ from rest_workspace.routers import ROUTER, SEARCH_ROUTER
 schema_view = get_swagger_view(title='Rest Workspace API')
 
 # router imports
-import_module('blog.routers')
+import_module('apps.blog.routers')
 
 # url patterns
 urlpatterns = [

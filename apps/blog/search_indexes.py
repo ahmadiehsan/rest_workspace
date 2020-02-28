@@ -2,8 +2,8 @@ import json
 
 from haystack import indexes
 
-from blog.models import BlogPost
-from blog import serializers
+from apps.blog.models import BlogPost
+from apps.blog import serializers
 
 
 class BaseIndex(indexes.SearchIndex):
@@ -25,8 +25,12 @@ class BlogPostIndex(BaseIndex, indexes.Indexable):
     title = indexes.CharField(model_attr='title')
     content = indexes.CharField(model_attr='content')
     image = indexes.CharField()
-    # categories = indexes.MultiValueField()
+    categories = indexes.CharField()
     author = indexes.CharField()
+
+    # If you’re working with Asian languages or want to be able to autocomplete across word
+    # boundaries, NgramField should be what you use
+    autocomplete = indexes.EdgeNgramField()
 
     @staticmethod
     def prepare_image(obj):
@@ -35,9 +39,9 @@ class BlogPostIndex(BaseIndex, indexes.Indexable):
             return 'media/{}'.format(image_url)
         return ''
 
-    # @staticmethod
-    # def prepare_categories(obj):
-    #     return [category.id for category in obj.categories.all()]
+    @staticmethod
+    def prepare_categories(obj):
+        return json.dumps(serializers.CategoryMinimalSerializer(obj.categories.all(), many=True).data)
 
     @staticmethod
     def prepare_author(obj):
@@ -45,6 +49,4 @@ class BlogPostIndex(BaseIndex, indexes.Indexable):
 
     @staticmethod
     def prepare_autocomplete(obj):
-        return " ".join((
-            obj.title, obj.author.username
-        ))
+        return obj.title
