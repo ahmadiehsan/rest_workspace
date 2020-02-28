@@ -7,13 +7,11 @@ from apps.blog.models import Category, Article
 class CategoryAdmin(admin.ModelAdmin):
     list_display = (
         'id',
-        'create_time',
-        'modify_time',
         'title',
         'parent',
-        'order',
+        'modify_time',
     )
-    list_filter = ('create_time', 'modify_time', 'parent')
+    list_filter = ('create_time', 'modify_time')
 
 
 @admin.register(Article)
