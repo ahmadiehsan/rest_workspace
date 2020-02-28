@@ -22,11 +22,13 @@ class CommentSerializer(PartialUpdateSerializerMixin, serializers.ModelSerialize
 
     class Meta:
         model = Comment
-        fields = ('id',
-                  'user',
-                  'user_id',
-                  'text',
-                  'model_type',
-                  'model_id',
-                  'child',
-                  'parent')
+        fields = (
+            'id',
+            'user',
+            'user_id',
+            'text',
+            'model_type',
+            'model_id',
+            'child',
+            'parent'
+        )

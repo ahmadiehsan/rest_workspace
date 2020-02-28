@@ -1,5 +1,6 @@
 from django_filters import rest_framework as django_filters
 from drf_haystack import filters as drf_haystack_filters
+from drf_haystack.mixins import MoreLikeThisMixin
 from drf_haystack.viewsets import HaystackViewSet
 from rest_framework import filters as drf_filters
 from rest_framework import viewsets, permissions
@@ -19,11 +20,15 @@ class ArticleViewSet(NestedViewSetMixin, DetailSerializerMixin, viewsets.ModelVi
     queryset = Article.objects.all()
     serializer_class = serializers.ArticleMinimalSerializer
     serializer_detail_class = serializers.ArticleSerializer
-    permission_classes = (custom_permissions.IsArticleOwnerOrReadOnly,
-                          permissions.DjangoModelPermissionsOrAnonReadOnly)
-    filter_backends = (drf_filters.SearchFilter,
-                       drf_filters.OrderingFilter,
-                       django_filters.DjangoFilterBackend)
+    permission_classes = (
+        custom_permissions.IsArticleOwnerOrReadOnly,
+        permissions.DjangoModelPermissionsOrAnonReadOnly
+    )
+    filter_backends = (
+        drf_filters.SearchFilter,
+        drf_filters.OrderingFilter,
+        django_filters.DjangoFilterBackend
+    )
 
     # drf_filters (OrderingFilter)
     ordering_fields = ('title',)
@@ -40,7 +45,7 @@ class ArticleViewSet(NestedViewSetMixin, DetailSerializerMixin, viewsets.ModelVi
         return super().get_serializer_class()
 
 
-class ArticleSearchViewSet(HaystackViewSet):
+class ArticleSearchViewSet(MoreLikeThisMixin, HaystackViewSet):
     index_models = (Article,)
     serializer_class = serializers.ArticleSearchSerializer
     permission_classes = ()  # prevent from exception ('SearchQuerySet' object has no attribute 'model')

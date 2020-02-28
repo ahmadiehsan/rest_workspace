@@ -5,13 +5,15 @@ from rest_framework_extensions.mixins import NestedViewSetMixin, DetailSerialize
 from apps.user import serializers
 
 
-class UserViewSet(NestedViewSetMixin,
-                  DetailSerializerMixin,
-                  mixins.ListModelMixin,
-                  mixins.RetrieveModelMixin,
-                  mixins.CreateModelMixin,
-                  mixins.UpdateModelMixin,
-                  viewsets.GenericViewSet):
+class UserViewSet(
+    NestedViewSetMixin,
+    DetailSerializerMixin,
+    mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.CreateModelMixin,
+    mixins.UpdateModelMixin,
+    viewsets.GenericViewSet
+):
     serializer_class = serializers.UserMinimalSerializer
     serializer_detail_class = serializers.UserSerializer
     permission_classes = [permissions.IsAuthenticated]

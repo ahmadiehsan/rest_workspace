@@ -5,12 +5,14 @@ from apps.common import serializers
 from apps.common.models import Comment
 
 
-class CommentViewSet(NestedViewSetMixin,
-                     DetailSerializerMixin,
-                     mixins.CreateModelMixin,
-                     mixins.ListModelMixin,
-                     mixins.RetrieveModelMixin,
-                     viewsets.GenericViewSet):
+class CommentViewSet(
+    NestedViewSetMixin,
+    DetailSerializerMixin,
+    mixins.CreateModelMixin,
+    mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
+    viewsets.GenericViewSet
+):
     queryset = Comment.objects.filter(parent__isnull=True)
     serializer_class = serializers.CommentMinimalSerializer
     serializer_detail_class = serializers.CommentSerializer

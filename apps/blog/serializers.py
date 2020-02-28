@@ -1,6 +1,7 @@
+import datetime
 import json
 
-from drf_haystack.serializers import HaystackSerializer
+from drf_haystack.serializers import HaystackSerializer, HaystackFacetSerializer
 from rest_framework import serializers
 from rest_framework_extensions.serializers import PartialUpdateSerializerMixin
 
@@ -40,6 +41,8 @@ class ArticleSerializer(PartialUpdateSerializerMixin, serializers.ModelSerialize
 
 
 class ArticleSearchSerializer(HaystackSerializer):
+    more_like_this = serializers.HyperlinkedIdentityField(view_name="article-search-more-like-this", read_only=True)
+
     author = serializers.SerializerMethodField()
     categories = serializers.SerializerMethodField()
 
@@ -54,16 +57,44 @@ class ArticleSearchSerializer(HaystackSerializer):
     class Meta:
         ignore_fields = ('text', 'author_index', 'categories_index', 'autocomplete')
         index_classes = (ArticleIndex,)
-        fields = ('title',
-                  'modify_time',
-                  'image',
-                  'author',
-                  'categories',
-                  'author_index',
-                  'categories_index',
-                  'autocomplete')
+        fields = (
+            'title',
+            'modify_time',
+            'image',
+            'author',
+            'categories',
+            'author_index',
+            'categories_index',
+            'autocomplete'
+        )
 
         # for converting /?autocomplete= to /?q=
-        field_aliases = {'q': 'autocomplete',
-                         'author': 'author_index',
-                         'categories': 'categories_index'}
+        field_aliases = {
+            'q': 'autocomplete',
+            'author': 'author_index',
+            'categories': 'categories_index'
+        }
+
+
+class ArticleFacetSerializer(HaystackFacetSerializer):
+    serialize_objects = True
+
+    class Meta:
+        index_classes = (ArticleIndex,)
+        fields = (
+            'title',
+            'modify_time',
+            'image',
+            'author',
+            'categories'
+        )
+        field_options = {
+            "title": {},
+            "author": {},
+            "modify_time": {
+                "start_date": datetime.datetime.now() - datetime.timedelta(days=3 * 365),
+                "end_date": datetime.datetime.now(),
+                "gap_by": "month",
+                "gap_amount": 3
+            }
+        }
