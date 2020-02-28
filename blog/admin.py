@@ -21,14 +21,10 @@ class BlogPostAdmin(admin.ModelAdmin):
     save_as = True
     list_display = (
         'id',
-        'create_time',
-        'modify_time',
         'title',
-        'content',
-        'image',
-        'author',
+        'modify_time',
     )
-    list_filter = ('create_time', 'modify_time', 'author')
+    list_filter = ('create_time', 'modify_time')
     raw_id_fields = ('categories',)
 
 

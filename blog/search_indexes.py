@@ -1,6 +1,9 @@
+import json
+
 from haystack import indexes
 
 from blog.models import BlogPost
+from blog import serializers
 
 
 class BaseIndex(indexes.SearchIndex):
@@ -22,8 +25,8 @@ class BlogPostIndex(BaseIndex, indexes.Indexable):
     title = indexes.CharField(model_attr='title')
     content = indexes.CharField(model_attr='content')
     image = indexes.CharField()
-    category_ids = indexes.MultiValueField()
-    author_id = indexes.MultiValueField()
+    # categories = indexes.MultiValueField()
+    author = indexes.CharField()
 
     @staticmethod
     def prepare_image(obj):
@@ -32,13 +35,13 @@ class BlogPostIndex(BaseIndex, indexes.Indexable):
             return 'media/{}'.format(image_url)
         return ''
 
-    @staticmethod
-    def prepare_category_ids(obj):
-        return [category.id for category in obj.categories.all()]
+    # @staticmethod
+    # def prepare_categories(obj):
+    #     return [category.id for category in obj.categories.all()]
 
     @staticmethod
-    def prepare_author_id(obj):
-        return obj.id
+    def prepare_author(obj):
+        return json.dumps(serializers.UserMinimalSerializer(obj.author).data)
 
     @staticmethod
     def prepare_autocomplete(obj):

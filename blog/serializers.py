@@ -1,3 +1,5 @@
+import json
+
 from django.contrib.auth.models import User
 from django.db import transaction
 from drf_haystack.serializers import HaystackSerializer
@@ -85,16 +87,16 @@ class BlogPostSerializer(PartialUpdateSerializerMixin, serializers.ModelSerializ
 
 
 class BlogPostSearchSerializer(HaystackSerializer):
-    categories = serializers.SerializerMethodField()
+    author = serializers.SerializerMethodField()
 
-    def get_categories(self, obj):
-        instances = Category.objects.filter(id__in=obj.category_ids)
-        return CategoryMinimalSerializer(instances, many=True).data
+    @staticmethod
+    def get_author(obj):
+        return json.loads(obj.author)
 
     class Meta:
         ignore_fields = COMMON_IGNORED_FIELDS
         index_classes = (BlogPostIndex,)
-        fields = ('title', 'content', 'image', 'category_ids', 'author_id')
+        fields = ('title', 'content', 'image', 'author')
 
 
 class CommentMinimalSerializer(serializers.ModelSerializer):
