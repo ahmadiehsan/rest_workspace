@@ -1,4 +1,3 @@
-from django.contrib.auth.models import User
 from django_filters import rest_framework as django_filters
 from drf_haystack import filters as drf_haystack_filters
 from drf_haystack.viewsets import HaystackViewSet
@@ -8,28 +7,6 @@ from rest_framework_extensions.mixins import DetailSerializerMixin, NestedViewSe
 
 from apps.blog import filters, permissions as custom_permissions, serializers
 from apps.blog.models import Category, Article, Comment
-
-
-class UserViewSet(NestedViewSetMixin,
-                  DetailSerializerMixin,
-                  mixins.ListModelMixin,
-                  mixins.RetrieveModelMixin,
-                  mixins.CreateModelMixin,
-                  mixins.UpdateModelMixin,
-                  viewsets.GenericViewSet):
-    serializer_class = serializers.UserMinimalSerializer
-    serializer_detail_class = serializers.UserSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get_queryset(self):
-        if self.request.user.is_superuser:
-            return User.objects.all()
-        return User.objects.filter(id=self.request.user.id).all()
-
-    def get_serializer_class(self):
-        if self.action == 'create':
-            return self.serializer_detail_class
-        return super().get_serializer_class()
 
 
 class CategoryViewSet(NestedViewSetMixin, DetailSerializerMixin, viewsets.ReadOnlyModelViewSet):

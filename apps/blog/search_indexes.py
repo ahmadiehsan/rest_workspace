@@ -2,21 +2,10 @@ import json
 
 from haystack import indexes
 
-from apps.blog.models import Article
+import apps.user.serializers
 from apps.blog import serializers
-
-
-class BaseIndex(indexes.SearchIndex):
-    model = None
-
-    text = indexes.CharField(document=True, use_template=False)  # django-haystack need this in all index models
-    id = indexes.CharField(model_attr='id')
-
-    def get_model(self):
-        return self.model
-
-    def index_queryset(self, using=None):
-        return self.get_model().objects.all()
+from apps.blog.models import Article
+from helpers.search_indexes import BaseIndex
 
 
 class ArticleIndex(BaseIndex, indexes.Indexable):
@@ -45,7 +34,7 @@ class ArticleIndex(BaseIndex, indexes.Indexable):
 
     @staticmethod
     def prepare_author(obj):
-        return json.dumps(serializers.UserMinimalSerializer(obj.author).data)
+        return json.dumps(apps.user.serializers.UserMinimalSerializer(obj.author).data)
 
     @staticmethod
     def prepare_autocomplete(obj):

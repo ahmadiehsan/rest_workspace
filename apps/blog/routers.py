@@ -1,10 +1,5 @@
-from rest_workspace.routers import ROUTER, SEARCH_ROUTER
-
 from apps.blog import viewsets
-
-ROUTER.register(r'users',
-                viewsets.UserViewSet,
-                basename='user')
+from rest_workspace.routers import ROUTER, SEARCH_ROUTER
 
 ROUTER.register(r'categories',
                 viewsets.CategoryViewSet,
@@ -16,9 +11,9 @@ ROUTER.register(r'categories',
 ROUTER.register(r'articles',
                 viewsets.ArticleViewSet,
                 basename='article').register(r'comments',
-                                          viewsets.CommentViewSet,
-                                          basename='article-comments',
-                                          parents_query_lookups=['article'])
+                                             viewsets.CommentViewSet,
+                                             basename='article-comments',
+                                             parents_query_lookups=['article'])
 
 SEARCH_ROUTER.register(r'articles', viewsets.ArticleSearchViewSet, basename='article-search')
 
