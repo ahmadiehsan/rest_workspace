@@ -4,7 +4,7 @@ from drf_haystack.serializers import HaystackSerializer
 from rest_framework import serializers
 from rest_framework_extensions.serializers import PartialUpdateSerializerMixin
 
-from apps.blog.models import Category, Article, Comment
+from apps.blog.models import Category, Article
 from apps.blog.search_indexes import ArticleIndex
 from apps.user.serializers import UserMinimalSerializer
 
@@ -56,15 +56,3 @@ class ArticleSearchSerializer(HaystackSerializer):
         index_classes = (ArticleIndex,)
         fields = ('title', 'content', 'image', 'author', 'categories', 'autocomplete')
         field_aliases = {'q': 'autocomplete'}
-
-
-class CommentMinimalSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Comment
-        fields = ('id', 'user', 'text')
-
-
-class CommentSerializer(PartialUpdateSerializerMixin, serializers.ModelSerializer):
-    class Meta:
-        model = Comment
-        fields = ('id', 'user', 'text', 'article', 'parent')

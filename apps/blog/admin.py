@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from apps.blog.models import Category, Article, Comment
+from apps.blog.models import Category, Article
 
 
 @admin.register(Category)
@@ -26,23 +26,3 @@ class ArticleAdmin(admin.ModelAdmin):
     )
     list_filter = ('create_time', 'modify_time')
     raw_id_fields = ('categories',)
-
-
-@admin.register(Comment)
-class CommentAdmin(admin.ModelAdmin):
-    list_display = (
-        'id',
-        'create_time',
-        'modify_time',
-        'user',
-        'text',
-        'article',
-        'parent',
-    )
-    list_filter = (
-        'create_time',
-        'modify_time',
-        'user',
-        'article',
-        'parent',
-    )

@@ -25,13 +25,3 @@ class Article(BaseModel):
 
     def __str__(self):
         return self.title
-
-
-class Comment(BaseModel):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    text = models.TextField()
-    article = models.ForeignKey(Article, on_delete=models.CASCADE)
-    parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
-
-    def __str__(self):
-        return '{}, {}'.format(self.user, self.article)

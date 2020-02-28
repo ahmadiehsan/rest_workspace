@@ -8,13 +8,6 @@ ROUTER.register(r'categories',
                                               basename='category-articles',
                                               parents_query_lookups=['categories'])
 
-ROUTER.register(r'articles',
-                viewsets.ArticleViewSet,
-                basename='article').register(r'comments',
-                                             viewsets.CommentViewSet,
-                                             basename='article-comments',
-                                             parents_query_lookups=['article'])
+ROUTER.register(r'articles', viewsets.ArticleViewSet, basename='article')
 
 SEARCH_ROUTER.register(r'articles', viewsets.ArticleSearchViewSet, basename='article-search')
-
-ROUTER.register(r'comments', viewsets.CommentViewSet, basename='comment')
