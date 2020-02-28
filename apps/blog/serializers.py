@@ -8,7 +8,6 @@ from apps.blog.models import Category, Article
 from apps.blog.search_indexes import ArticleIndex
 from apps.common.serializers import CommentMinimalSerializer
 from apps.user.serializers import UserMinimalSerializer
-from helpers.utils import to_jalali_datetime
 
 
 class CategoryMinimalSerializer(serializers.ModelSerializer):
