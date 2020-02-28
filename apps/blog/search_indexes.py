@@ -2,7 +2,7 @@ import json
 
 from haystack import indexes
 
-from apps.blog.models import BlogPost
+from apps.blog.models import Article
 from apps.blog import serializers
 
 
@@ -19,8 +19,8 @@ class BaseIndex(indexes.SearchIndex):
         return self.get_model().objects.all()
 
 
-class BlogPostIndex(BaseIndex, indexes.Indexable):
-    model = BlogPost
+class ArticleIndex(BaseIndex, indexes.Indexable):
+    model = Article
 
     title = indexes.CharField(model_attr='title')
     content = indexes.CharField(model_attr='content')

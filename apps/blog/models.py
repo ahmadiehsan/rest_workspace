@@ -28,10 +28,10 @@ class Category(BaseModel):
         return self.title
 
 
-class BlogPost(BaseModel):
+class Article(BaseModel):
     title = models.CharField(max_length=150)
     content = models.TextField()
-    image = models.ImageField(upload_to='post_images', null=True, blank=True)
+    image = models.ImageField(upload_to='articles_image', null=True, blank=True)
     categories = models.ManyToManyField(Category)
     author = models.ForeignKey(User, on_delete=models.PROTECT)
 
@@ -42,8 +42,8 @@ class BlogPost(BaseModel):
 class Comment(BaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.TextField()
-    blog_post = models.ForeignKey(BlogPost, on_delete=models.CASCADE)
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)
     parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
-        return '{}, {}'.format(self.user, self.blog_post)
+        return '{}, {}'.format(self.user, self.article)

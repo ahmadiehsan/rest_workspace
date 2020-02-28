@@ -7,7 +7,7 @@ from rest_framework import viewsets, mixins, permissions
 from rest_framework_extensions.mixins import DetailSerializerMixin, NestedViewSetMixin
 
 from apps.blog import filters, permissions as custom_permissions, serializers
-from apps.blog.models import Category, BlogPost, Comment
+from apps.blog.models import Category, Article, Comment
 
 
 class UserViewSet(NestedViewSetMixin,
@@ -38,11 +38,11 @@ class CategoryViewSet(NestedViewSetMixin, DetailSerializerMixin, viewsets.ReadOn
     serializer_detail_class = serializers.CategorySerializer
 
 
-class BlogPostViewSet(NestedViewSetMixin, DetailSerializerMixin, viewsets.ModelViewSet):
-    queryset = BlogPost.objects.all()
-    serializer_class = serializers.BlogPostMinimalSerializer
-    serializer_detail_class = serializers.BlogPostSerializer
-    permission_classes = (custom_permissions.IsBlogPostOwnerOrReadOnly,
+class ArticleViewSet(NestedViewSetMixin, DetailSerializerMixin, viewsets.ModelViewSet):
+    queryset = Article.objects.all()
+    serializer_class = serializers.ArticleMinimalSerializer
+    serializer_detail_class = serializers.ArticleSerializer
+    permission_classes = (custom_permissions.IsArticleOwnerOrReadOnly,
                           permissions.DjangoModelPermissionsOrAnonReadOnly)
     filter_backends = (drf_filters.SearchFilter,
                        drf_filters.OrderingFilter,
@@ -55,7 +55,7 @@ class BlogPostViewSet(NestedViewSetMixin, DetailSerializerMixin, viewsets.ModelV
     search_fields = ('title',)
 
     # django_filter
-    filter_class = filters.BlogPostFilter
+    filter_class = filters.ArticleFilter
 
     def get_serializer_class(self):
         if self.action == 'create':
@@ -63,9 +63,9 @@ class BlogPostViewSet(NestedViewSetMixin, DetailSerializerMixin, viewsets.ModelV
         return super().get_serializer_class()
 
 
-class BlogPostSearchViewSet(HaystackViewSet):
-    index_models = (BlogPost,)
-    serializer_class = serializers.BlogPostSearchSerializer
+class ArticleSearchViewSet(HaystackViewSet):
+    index_models = (Article,)
+    serializer_class = serializers.ArticleSearchSerializer
     permission_classes = ()  # prevent from exception ('SearchQuerySet' object has no attribute 'model')
     filter_backends = (drf_haystack_filters.HaystackAutocompleteFilter,)
 

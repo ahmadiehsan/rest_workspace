@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from apps.blog.models import Category, BlogPost, Comment
+from apps.blog.models import Category, Article, Comment
 
 
 @admin.register(Category)
@@ -16,8 +16,8 @@ class CategoryAdmin(admin.ModelAdmin):
     list_filter = ('create_time', 'modify_time', 'parent')
 
 
-@admin.register(BlogPost)
-class BlogPostAdmin(admin.ModelAdmin):
+@admin.register(Article)
+class ArticleAdmin(admin.ModelAdmin):
     save_as = True
     list_display = (
         'id',
@@ -36,13 +36,13 @@ class CommentAdmin(admin.ModelAdmin):
         'modify_time',
         'user',
         'text',
-        'blog_post',
+        'article',
         'parent',
     )
     list_filter = (
         'create_time',
         'modify_time',
         'user',
-        'blog_post',
+        'article',
         'parent',
     )
