@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 
+from apps.common.models import Comment
 from helpers.models import BaseModel
 
 
@@ -22,6 +23,10 @@ class Article(BaseModel):
     image = models.ImageField(upload_to='articles_image', null=True, blank=True)
     categories = models.ManyToManyField(Category)
     author = models.ForeignKey(User, on_delete=models.PROTECT)
+
+    @property
+    def comments(self):
+        return Comment.objects.filter(model_type='article', model_id=self.id)
 
     def __str__(self):
         return self.title

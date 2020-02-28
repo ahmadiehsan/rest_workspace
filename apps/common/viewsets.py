@@ -11,7 +11,7 @@ class CommentViewSet(NestedViewSetMixin,
                      mixins.ListModelMixin,
                      mixins.RetrieveModelMixin,
                      viewsets.GenericViewSet):
-    queryset = Comment.objects.all()
+    queryset = Comment.objects.filter(parent__isnull=True)
     serializer_class = serializers.CommentMinimalSerializer
     serializer_detail_class = serializers.CommentSerializer
 

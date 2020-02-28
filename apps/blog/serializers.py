@@ -6,6 +6,7 @@ from rest_framework_extensions.serializers import PartialUpdateSerializerMixin
 
 from apps.blog.models import Category, Article
 from apps.blog.search_indexes import ArticleIndex
+from apps.common.serializers import CommentMinimalSerializer
 from apps.user.serializers import UserMinimalSerializer
 
 COMMON_IGNORED_FIELDS = ('text',)
@@ -28,15 +29,16 @@ class ArticleMinimalSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Article
-        fields = ('id', 'title', 'modify_time', 'image', 'categories', 'author')
+        fields = ('id', 'title', 'modify_time', 'image', 'author')
 
 
 class ArticleSerializer(PartialUpdateSerializerMixin, serializers.ModelSerializer):
     author = UserMinimalSerializer()
+    comments = CommentMinimalSerializer(many=True)
 
     class Meta:
         model = Article
-        fields = ('id', 'title', 'modify_time', 'image', 'categories', 'content', 'author')
+        fields = ('id', 'title', 'modify_time', 'image', 'author', 'comments', 'categories', 'content')
 
 
 class ArticleSearchSerializer(HaystackSerializer):

@@ -11,13 +11,15 @@ class CommentAdmin(admin.ModelAdmin):
         'modify_time',
         'user',
         'text',
-        'model',
+        'model_type',
+        'model_id',
         'parent',
     )
     list_filter = (
         'create_time',
         'modify_time',
         'user',
-        'model',
+        'model_type',
+        'model_id',
         'parent',
     )

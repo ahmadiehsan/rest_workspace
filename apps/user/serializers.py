@@ -4,10 +4,11 @@ from rest_framework import serializers
 from rest_framework_extensions.serializers import PartialUpdateSerializerMixin
 
 from apps.user.models import UserAdditionalData
+from helpers.serializers import PhoneNumberField
 
 
 class UserAdditionalDataSerializer(serializers.ModelSerializer):
-    phone_number = serializers.CharField(min_length=10)
+    phone_number = PhoneNumberField()
 
     class Meta:
         model = UserAdditionalData
@@ -22,8 +23,8 @@ class UserMinimalSerializer(serializers.ModelSerializer):
 
 class UserSerializer(PartialUpdateSerializerMixin, serializers.ModelSerializer):
     user_additional_data = UserAdditionalDataSerializer(source='user_ad')
-    first_name = serializers.CharField(max_length=5, allow_blank=True)
-    last_name = serializers.CharField(default='test', allow_null=True, allow_blank=True)
+    first_name = serializers.CharField(allow_null=True, allow_blank=True)
+    last_name = serializers.CharField(allow_null=True, allow_blank=True)
 
     class Meta:
         model = User
