@@ -16,6 +16,9 @@ __pycache__
 # settings file
 **/settings/production.py
 **/settings/prod.py
+**/settings/dev.py
+**/settings/develop.py
+**/settings/local.py
 
 # other
 **/uwsgi_params

@@ -10,9 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
-import os
-import datetime
 import locale
+import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -22,11 +21,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '&)&_2g(v!#)6(q$qt%4nhkcc_uw!*&2xsd(ywnl=6!!e9$^fqz'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
 
 # Application definition
 DJANGO_APPS = [
@@ -82,15 +76,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'rest_workspace.wsgi.application'
 
-# Database
-# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 AUTH_PASSWORD_VALIDATORS = [
@@ -123,6 +108,7 @@ STATIC_URL = '/static/'
 
 # media
 MEDIA_URL = '/media/'
+MEDIA_DIRS = (os.path.join(BASE_DIR, "media"),)
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # django rest framework
@@ -142,48 +128,4 @@ REST_FRAMEWORK = {
 
     # filtering
     # 'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
-}
-
-# Logging
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'verbose': {
-            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}\n',
-            'style': '{'
-        },
-        'simple': {
-            'format': '{levelname} {message}',
-            'style': '{'
-        },
-    },
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-            'formatter': 'simple',
-            'level': 'WARNING',
-        },
-    },
-    'loggers': {
-        'suds': {
-            'handlers': [],
-            'propagate': True,
-            'level': 'CRITICAL',
-        },
-        '': {
-            'handlers': ['console'],
-            'propagate': True,
-            'level': 'DEBUG',
-        },
-    },
-}
-
-# django haystack (for elasticsearch 2)
-HAYSTACK_CONNECTIONS = {
-    'default': {
-        'ENGINE': 'haystack.backends.elasticsearch2_backend.Elasticsearch2SearchEngine',
-        'URL': 'http://127.0.0.1:9200/',
-        'INDEX_NAME': 'haystack',
-    },
 }
