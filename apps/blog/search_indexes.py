@@ -10,7 +10,7 @@ class ArticleIndex(BaseIndex, indexes.Indexable):
     model = Article
 
     title = indexes.CharField(model_attr='title')
-    modify_time = indexes.CharField(model_attr='modify_time')
+    modify_time = indexes.DateTimeField(model_attr='modify_time')
     image = indexes.CharField()
     author = indexes.CharField()
     author_index = indexes.CharField()

@@ -52,7 +52,7 @@ class ArticleSearchViewSet(FacetMixin, MoreLikeThisMixin, HaystackViewSet):
         drf_haystack_filters.HaystackOrderingFilter,
         drf_haystack_filters.HaystackAutocompleteFilter,
     )
-    ordering_fields = ('title', 'modify_time')
+    ordering_fields = ('modify_time',)
 
     # index option
     index_models = (Article,)
