@@ -107,8 +107,11 @@ STATIC_URL = '/static/'
 
 # media
 MEDIA_URL = '/media/'
-MEDIA_DIRS = (os.path.join(BASE_DIR, "media"),)
+MEDIA_DIRS = (os.path.join(BASE_DIR, 'media'),)
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# fixtures
+FIXTURE_DIRS = (os.path.join(BASE_DIR, 'fixtures'),)
 
 # django rest framework
 REST_FRAMEWORK = {

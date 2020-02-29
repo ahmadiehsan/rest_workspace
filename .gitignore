@@ -25,7 +25,7 @@ __pycache__
 venv
 env
 *.sqlite3
-media
+media/*
 celerybeat*
 logs
 backup
