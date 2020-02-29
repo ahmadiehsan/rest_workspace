@@ -47,14 +47,14 @@ class ArticleViewSet(NestedViewSetMixin, DetailSerializerMixin, viewsets.ModelVi
 
 class ArticleSearchViewSet(FacetMixin, MoreLikeThisMixin, HaystackViewSet):
     permission_classes = ()  # prevent from exception ('SearchQuerySet' object has no attribute 'model')
+
+    # index option
     serializer_class = serializers.ArticleSearchSerializer
     filter_backends = (
         drf_haystack_filters.HaystackOrderingFilter,
         drf_haystack_filters.HaystackAutocompleteFilter,
     )
     ordering_fields = ('modify_time',)
-
-    # index option
     index_models = (Article,)
 
     # facet options
