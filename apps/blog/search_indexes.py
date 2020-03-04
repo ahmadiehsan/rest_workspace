@@ -17,7 +17,7 @@ class ArticleIndex(BaseIndex, indexes.Indexable):
     categories = indexes.CharField()
     categories_index = indexes.MultiValueField()
 
-    autocomplete = indexes.EdgeNgramField()
+    autocomplete = indexes.EdgeNgramField()  # or indexes.NgramField()
 
     @staticmethod
     def prepare_image(obj):
