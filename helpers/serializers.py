@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.core.paginator import Paginator
 from drf_haystack.serializers import FacetFieldSerializer
 from rest_framework import serializers
 
@@ -46,3 +48,18 @@ class CustomFacetFieldSerializer(FacetFieldSerializer):
         path = "%(path)s?%(query)s" % {"path": request.path_info, "query": query_params.urlencode()}
         url = request.build_absolute_uri(path)
         return serializers.Hyperlink(url, "narrow-url")
+
+
+def get_paginated_data(request, query_set, serializer):
+    page_size = request.query_params.get('size') or settings.REST_FRAMEWORK.get('PAGE_SIZE') or 20
+    paginator = Paginator(query_set.all(), page_size)
+
+    page = request.query_params.get('page') or 1
+    results = paginator.page(page)
+
+    rtn = {
+        'count': query_set.count(),
+        'results': serializer(results, many=True).data
+    }
+
+    return rtn
