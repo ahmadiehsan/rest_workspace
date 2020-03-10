@@ -51,7 +51,7 @@ class CustomFacetFieldSerializer(FacetFieldSerializer):
 
 
 def get_paginated_data(request, query_set, serializer):
-    page_size = request.query_params.get('size') or settings.REST_FRAMEWORK.get('PAGE_SIZE') or 20
+    page_size = request.query_params.get('page_size') or settings.REST_FRAMEWORK.get('PAGE_SIZE') or 20
     paginator = Paginator(query_set.all(), page_size)
 
     page = request.query_params.get('page') or 1
