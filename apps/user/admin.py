@@ -1,10 +1,9 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
-from apps.user.models import UserAdditionalData
-
-# unregistering django default user admin model
-admin.site.unregister(User)
+from apps.user.models import UserAdditionalData, VipAccount
+from helpers.admin import BaseAdminModel
 
 
 class UserAdditionalDataInline(admin.StackedInline):
@@ -13,7 +12,18 @@ class UserAdditionalDataInline(admin.StackedInline):
     min_num = 1
 
 
+# unregistering django default user admin model
+admin.site.unregister(User)
+
+
 @admin.register(User)
-class UserAdmin(admin.ModelAdmin):
-    readonly_fields = ('last_login', 'date_joined')
+class UserAdmin(UserAdmin):
     inlines = (UserAdditionalDataInline,)
+
+
+@admin.register(VipAccount)
+class VipAccountAdmin(BaseAdminModel):
+    search_fields = ('user',)
+    list_display = ('user', 'is_active')
+    list_filter = ('is_active',)
+    raw_id_fields = ('user',)

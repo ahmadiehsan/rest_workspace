@@ -28,8 +28,11 @@ DJANGO_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # other packages
     'django_extensions',
+    'rules',
 
+    # rest-framework related packages
     'rest_framework',
     'rest_framework_swagger',
     'django_filters',
@@ -51,6 +54,10 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+
+    # automatically fill created_by and modify_by fields
+    'helpers.middleware.WhoDidMiddleware',
+
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -131,3 +138,17 @@ REST_FRAMEWORK = {
     # filtering
     # 'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
 }
+
+# django-rules config
+AUTHENTICATION_BACKENDS = (
+    'rules.permissions.ObjectPermissionBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+# COOKIE CONFIGURATION
+# The purpose of customizing the cookie names is to avoid conflicts when
+# multiple Django services are running behind the same hostname.
+# Detailed information at: https://docs.djangoproject.com/en/dev/ref/settings/
+SESSION_COOKIE_NAME = 'rest_workspace_sessionid'
+CSRF_COOKIE_NAME = 'rest_workspace_csrftoken'
+LANGUAGE_COOKIE_NAME = 'rest_workspace_language'

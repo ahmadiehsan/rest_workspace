@@ -3,27 +3,23 @@ from drf_haystack import filters as drf_haystack_filters
 from drf_haystack.mixins import MoreLikeThisMixin, FacetMixin
 from drf_haystack.viewsets import HaystackViewSet
 from rest_framework import filters as drf_filters
-from rest_framework import viewsets, permissions
-from rest_framework_extensions.mixins import DetailSerializerMixin, NestedViewSetMixin
+from rest_framework_extensions.mixins import NestedViewSetMixin
 
 from apps.blog import filters, permissions as custom_permissions, serializers
 from apps.blog.models import Category, Article
+from helpers import viewsets as custom_viewsets
 
 
-class CategoryViewSet(NestedViewSetMixin, DetailSerializerMixin, viewsets.ReadOnlyModelViewSet):
+class CategoryViewSet(NestedViewSetMixin, custom_viewsets.ReadOnlyModelViewSet):
     queryset = Category.objects.all()
     serializer_class = serializers.CategoryMinimalSerializer
     serializer_detail_class = serializers.CategorySerializer
 
 
-class ArticleViewSet(NestedViewSetMixin, DetailSerializerMixin, viewsets.ModelViewSet):
-    queryset = Article.objects.all()
+class ArticleViewSet(NestedViewSetMixin, custom_viewsets.ModelViewSet):
     serializer_class = serializers.ArticleMinimalSerializer
     serializer_detail_class = serializers.ArticleSerializer
-    permission_classes = (
-        custom_permissions.IsArticleOwnerOrReadOnly,
-        permissions.DjangoModelPermissionsOrAnonReadOnly
-    )
+    permission_classes = (custom_permissions.ArticlePermissions,)
     filter_backends = (
         drf_filters.SearchFilter,
         drf_filters.OrderingFilter,
@@ -39,10 +35,8 @@ class ArticleViewSet(NestedViewSetMixin, DetailSerializerMixin, viewsets.ModelVi
     # django_filter
     filter_class = filters.ArticleFilter
 
-    def get_serializer_class(self):
-        if self.action == 'create':
-            return self.serializer_detail_class
-        return super().get_serializer_class()
+    def get_queryset(self):
+        return Article.objects.by_user_perm(self.request.user)
 
 
 class ArticleSearchViewSet(FacetMixin, MoreLikeThisMixin, HaystackViewSet):

@@ -1,26 +1,18 @@
 from django.contrib import admin
 
 from apps.blog.models import Category, Article
+from helpers.admin import BaseAdminModel
 
 
 @admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
-    list_display = (
-        'id',
-        'title',
-        'parent',
-        'modify_time',
-    )
-    list_filter = ('create_time', 'modify_time')
+class CategoryAdmin(BaseAdminModel):
+    list_display = ('title', 'parent')
 
 
 @admin.register(Article)
-class ArticleAdmin(admin.ModelAdmin):
+class ArticleAdmin(BaseAdminModel):
     save_as = True
-    list_display = (
-        'id',
-        'title',
-        'modify_time',
-    )
-    list_filter = ('create_time', 'modify_time')
+    search_fields = ('title',)
+    list_display = ('title', 'author')
+    list_filter = ('vip_only',)
     raw_id_fields = ('categories',)

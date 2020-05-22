@@ -11,6 +11,7 @@ class ArticleIndex(BaseIndex, indexes.Indexable):
 
     title = indexes.CharField(model_attr='title')
     modify_time = indexes.DateTimeField(model_attr='modify_time')
+    vip_only = indexes.BooleanField(model_attr='vip_only')
     image = indexes.CharField()
     author = indexes.CharField()
     author_index = indexes.CharField()

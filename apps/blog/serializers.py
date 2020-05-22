@@ -28,7 +28,7 @@ class ArticleMinimalSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Article
-        fields = ('id', 'title', 'modify_time', 'image', 'author', 'categories')
+        fields = ('id', 'title', 'modify_time_formatted', 'image', 'author', 'categories', 'vip_only')
 
 
 class ArticleSerializer(PartialUpdateSerializerMixin, serializers.ModelSerializer):
@@ -37,7 +37,7 @@ class ArticleSerializer(PartialUpdateSerializerMixin, serializers.ModelSerialize
 
     class Meta:
         model = Article
-        fields = ('id', 'title', 'modify_time', 'image', 'author', 'categories', 'comments', 'content')
+        fields = ('id', 'title', 'modify_time_formatted', 'image', 'author', 'categories', 'comments', 'content', 'vip_only')
 
 
 class ArticleSearchSerializer(HaystackSerializer):
@@ -59,13 +59,14 @@ class ArticleSearchSerializer(HaystackSerializer):
         index_classes = (ArticleIndex,)
         fields = (
             'title',
-            'modify_time',
+            'modify_time_formatted',
             'image',
             'author',
             'categories',
             'author_index',
             'categories_index',
-            'autocomplete'
+            'autocomplete',
+            'vip_only'
         )
 
         # for converting /?autocomplete= to /?q=
@@ -84,7 +85,7 @@ class ArticleFacetSerializer(HaystackFacetSerializer):
         index_classes = (ArticleIndex,)
         fields = (
             'title',
-            'modify_time',
+            'modify_time_formatted',
             'image',
             'author',
             'categories'

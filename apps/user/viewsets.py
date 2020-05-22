@@ -1,18 +1,15 @@
 from django.contrib.auth.models import User
-from rest_framework import mixins, viewsets, permissions
-from rest_framework_extensions.mixins import NestedViewSetMixin, DetailSerializerMixin
+from rest_framework import permissions
+from rest_framework_extensions.mixins import NestedViewSetMixin
 
 from apps.user import serializers
+from helpers import viewsets as custom_viewsets
 
 
 class UserViewSet(
     NestedViewSetMixin,
-    DetailSerializerMixin,
-    mixins.ListModelMixin,
-    mixins.RetrieveModelMixin,
-    mixins.CreateModelMixin,
-    mixins.UpdateModelMixin,
-    viewsets.GenericViewSet
+    custom_viewsets.WriteOnlyModelViewSet,
+    custom_viewsets.ReadOnlyModelViewSet,
 ):
     serializer_class = serializers.UserMinimalSerializer
     serializer_detail_class = serializers.UserSerializer
@@ -22,8 +19,3 @@ class UserViewSet(
         if self.request.user.is_superuser:
             return User.objects.all()
         return User.objects.filter(id=self.request.user.id).all()
-
-    def get_serializer_class(self):
-        if self.action == 'create':
-            return self.serializer_detail_class
-        return super().get_serializer_class()
