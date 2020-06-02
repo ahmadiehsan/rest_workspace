@@ -3,7 +3,19 @@ from django.core.paginator import Paginator
 from drf_haystack.serializers import FacetFieldSerializer
 from rest_framework import serializers
 
-from helpers.utils import clean_phone_number
+from helpers.utils import clean_phone_number, to_jalali_datetime
+
+
+class AcceptGregorianButSendJalaliField(serializers.Field):
+    def __init__(self, str_format='%d %b %Y'):
+        self.str_format = str_format
+        super().__init__()
+
+    def to_representation(self, value):
+        return to_jalali_datetime(value).strftime(self.str_format)
+
+    def to_internal_value(self, value):
+        return value
 
 
 class RecursiveField(serializers.Serializer):

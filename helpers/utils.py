@@ -4,8 +4,11 @@ from rest_framework.exceptions import ValidationError
 
 
 def to_jalali_datetime(datetime):
-    """convert gregorian datetime to jalali date time"""
-    return jdatetime.datetime.fromgregorian(datetime=datetime)
+    """convert gregorian datetime to jalali datetime"""
+    try:
+        return jdatetime.datetime.fromgregorian(datetime=datetime)
+    except:
+        return datetime
 
 
 def clean_phone_number(phone_number):
