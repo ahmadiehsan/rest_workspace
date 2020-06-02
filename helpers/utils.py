@@ -2,13 +2,11 @@ import jdatetime
 from django.utils.translation import ugettext as _
 from rest_framework.exceptions import ValidationError
 
-jdatetime.set_locale('fa_IR')
-
 
 def to_jalali_datetime(datetime):
     """convert gregorian datetime to jalali datetime"""
     try:
-        return jdatetime.datetime.fromgregorian(datetime=datetime)
+        return jdatetime.datetime.fromgregorian(datetime=datetime, locale='fa_IR')
     except:
         return datetime
 
