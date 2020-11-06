@@ -1,6 +1,6 @@
-# sample django rest framework project
+# Sample django project with DRF and elasticsearch
 
-## main packages
+## Main packages
 
 - Django
 - djangorestframework (DRF) (rest api)
@@ -10,36 +10,33 @@
 - django-haystack (search with elasticsearch engine)
 - drf-haystack (connect django-haystack to DRF)
 
-## prerequisites
+## Prerequisites
 
-- python 3.5
+- python 3.5 (may work with python 3.7 or 3.8)
 - elasticsearch v2
 
-[python 3.5 installation](https://mgit.mparsict.com/ahmadiehsan/cheatsheet/tree/master/python)
-
-[elasticsearch 2 installation](https://mgit.mparsict.com/ahmadiehsan/cheatsheet/tree/master/elasticsearch)
-
-## project installation
+## Usage
 
 ```
 git clone <this repo>
 cd rest-workspace
 virtualenv -p python3.5 venv
 source venv/bin/activate
-pip install -r req.txt
+pip install -r requirements.txt
 ./manage.py makemigrations
 ./manage.py migrate
-./manage.pu runserver
+./manage.py runserver
 ```
 
-after install check this urls:
+after run check this urls:
 
-- 127.0.0.1:8000/api/v1 (api with sqlite3 backend)
-- 127.0.0.1:8000/api/v1/search (api with elasticsearch backend)
-- 127.0.0.1:8000/api-docs (api documentation)
+- [api with sqlite3 backend](127.0.0.1:8000/api/v1)
+- [api with elasticsearch backend](127.0.0.1:8000/api/v1/search) (before use, run `./manage.py update_index`)
+- [api documentation](127.0.0.1:8000/api-docs)
 
-## additional management commands
+## Additional management commands
 
 - update elasticsearch indexes
   
   `./manage.py update_index`
+

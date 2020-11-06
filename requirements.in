@@ -10,4 +10,5 @@ drf-haystack==1.8.6
 elasticsearch==2.4.1
 jdatetime==3.6.2
 Pillow==7.0.0
+pip-tools==5.3.1
 rules==2.2

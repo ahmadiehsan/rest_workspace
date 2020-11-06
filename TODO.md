@@ -1,1 +1,0 @@
-- add django fixture for initial data
